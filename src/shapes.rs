@@ -47,3 +47,42 @@ impl Drawable for Point {
         canvas.display(self.x, self.y, self.color());
     }
 }
+
+//linee
+#[derive(Debug, PartialEq, Eq)]
+pub struct Line {
+    pub p1: Point,
+    pub p2: Point,
+}
+
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Triangle {
+    pub p1: Point,
+    pub p2: Point,
+    pub point3: Point,
+}
+impl Triangle {
+    pub fn new(p1: &Point, p2: &Point, point3: &Point) -> Self {
+        Self {
+            p1: p1.clone(),
+            p2: p2.clone(),
+            point3: point3.clone(),
+        }
+    }
+}
+
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Rectangle {
+    pub p1: Point,
+    pub p2: Point,
+}
+impl Rectangle {
+    pub fn new(p1: &Point, p2: &Point) -> Self {
+        Self {
+            p1: p1.clone(),
+            p2: p2.clone(),
+        }
+    }
+}
