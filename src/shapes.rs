@@ -39,12 +39,12 @@ pub struct Line {
 }
 
 
-// #[derive(Debug, PartialEq, Eq, Clone)]
-// pub struct Triangle {
-//     pub p1: Point,
-//     pub p2: Point,
-//     pub p3: Point,
-// }
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Triangle {
+    pub p1: Point,
+    pub p2: Point,
+    pub p3: Point,
+}
 
 
 
@@ -91,15 +91,13 @@ impl Point {
     }
 }
 
-// impl Triangle {
-//     pub fn new(p1: &Point, p2: &Point, p3: &Point) -> Self {
-//         Self {
-//             p1: p1.clone(),
-//             p2: p2.clone(),
-//             p3: p3.clone(),
-//         }
-//     }
-// }
+impl Triangle {
+    pub fn new(p1: &Point, p2: &Point, p3: &Point) -> Self {
+        Self {
+            p1: p1.clone(), p2: p2.clone(), p3: p3.clone(),
+        }
+    }
+}
 
 
 // impl Circle {
@@ -133,5 +131,13 @@ impl Drawable for Rectangle {
         render_line(image,&self.p2, &p4 , cc.clone());
         render_line(image,&p4, &self.p1 , cc.clone());
         //implement Rec draw
+    }
+}
+impl Drawable for Triangle {
+    fn draw(&self, image: &mut Image) {
+        let c = self.color();
+        render_line(image, &self.p1, &self.p2, c.clone());
+        render_line(image, &self.p2, &self.p3, c.clone());
+        render_line(image, &self.p3, &self.p1, c);
     }
 }
