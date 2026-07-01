@@ -1,61 +1,41 @@
-use crate::shapes::Point;
+use crate::shapes::Point; // wla crate::geometrical_shapes::Point 3la 7sab smiya dyal l-fichier dyalek
 use raster::{Color, Image};
 
-pub fn draw_line_same_color(image: &mut Image, p1: &Point, p2: &Point, color: Color) {
-    print!("mmm");
-    // DDA (Digital Differential Analyzer) line drawing
-    let x1 = p1.x as f32;
-    let y1 = p1.y as f32;
-    let x2 = p2.x as f32;
-    let y2 = p2.y as f32;
+pub fn render_line(canvas: &mut Image, start: &Point, end: &Point, theme: Color) {
+    let mut cur_x = start.x;
+    let mut cur_y = start.y;
+    let target_x = end.x;
+    let target_y = end.y;
+    let delta_x = (target_x - cur_x).abs();
+    let delta_y = -(target_y - cur_y).abs();
 
-    let dx = x2 - x1;
-    let dy = y2 - y1;
+    // 3. Nchoufou l-ittijah (wach ghan-zido l-9eddam wla n-rj3ou l-lor)
+    let step_x = if cur_x < target_x { 1 } else { -1 };
+    let step_y = if cur_y < target_y { 1 } else { -1 };
 
-    let steps_f = dx.abs().max(dy.abs());
+    // 4. L-motaghayyir li gha-y3awenna n-s77o l-massar (Error margin)
+    let mut error = delta_x + delta_y;
 
-    let x_inc = dx / steps_f as f32;
-    let y_inc = dy / steps_f as f32;
+    // 5. Nbdawe n-rsmo f boucle (loop)
+    loop {
+        // N-lewno l-pixel lhali
+        crate::shapes::Displayable::display(canvas, cur_x, cur_y, theme.clone());
+        // Ila wslna l-no9ta l-akhira, n7ebso l-boucle
+        if cur_x == target_x && cur_y == target_y { 
+            break; 
+        }
+        // N7esbo l-khata2 l-modaa3af (Double error)
+        let double_error = 2 * error;
 
-    let mut x = x1;
-    let mut y = y1;
-
-    for _ in 0..=steps_f as i32 {
-        crate::shapes::Displayable::display(image, x as i32, y as i32, color.clone());
-        x += x_inc;
-        y += y_inc;
+        // Wach n-k7zo f l-mi7war X?
+        if double_error >= delta_y {
+            error += delta_y;
+            cur_x += step_x;
+        }
+        // Wach n-k7zo f l-mi7war Y?
+        if double_error <= delta_x {
+            error += delta_x;
+            cur_y += step_y;
+        }
     }
 }
-//
-// pub fn draw_line_same_color(image: &mut Image, p1: Point, p2: Point, color: Color) {
-//     let mut x1 = p1.x;
-//     let mut y1 = p1.y;
-//     let x2 = p2.x;
-//     let y2 = p2.y;
-
-//     let dx = (x2 - x1).abs();
-//     let dy = -(y2 - y1).abs();
-
-//     let sx = if x1 < x2 { 1 } else { -1 };
-//     let sy = if y1 < y2 { 1 } else { -1 };
-
-//     let mut err = dx + dy;
-
-//     loop {
-//         crate::geometrical_shapes::Displayable::display(image, x1, y1, color.clone());
-
-//         if x1 == x2 && y1 == y2 { break; }
-
-//         let e2 = 2 * err;
-
-//         if e2 >= dy {
-//             err += dy;
-//             x1 += sx;
-//         }
-
-//         if e2 <= dx {
-//             err += dx;
-//             y1 += sy;
-//         }
-//     }
-// }
