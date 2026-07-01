@@ -1,4 +1,5 @@
 use rand::Rng;
+use crate::drawline::render_line;
 use raster::{Color, Image};
 
 // 1. Define the traits expected by main.rs
@@ -21,11 +22,59 @@ pub trait Displayable {
     fn display(&mut self, x: i32, y: i32, color: Color);
 }
 
-// 2. Implement the Point
+
+// structs
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Point {
     pub x: i32,
     pub y: i32,
+}
+
+
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct Line {
+    pub p1: Point,
+    pub p2: Point,
+}
+
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Triangle {
+    pub p1: Point,
+    pub p2: Point,
+    pub p3: Point,
+}
+
+
+
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct Rectangle {
+    pub p1: Point,
+    pub p2: Point,
+}
+impl Rectangle {
+    pub fn new(p1: &Point, p2: &Point) -> Self {
+        Self {
+            p1: p1.clone(),
+            p2: p2.clone(),
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, Eq)]
+pub struct Circle {
+    pub center: Point,
+    pub radius: i32,
+}
+
+
+//implementations :
+
+impl Drawable for Point {
+    fn draw(&self, canvas: &mut Image) {
+        canvas.display(self.x, self.y, self.color());
+    }
 }
 
 impl Point {
@@ -42,47 +91,33 @@ impl Point {
     }
 }
 
-impl Drawable for Point {
-    fn draw(&self, canvas: &mut Image) {
-        canvas.display(self.x, self.y, self.color());
-    }
-}
-
-//linee
-#[derive(Debug, PartialEq, Eq)]
-pub struct Line {
-    pub p1: Point,
-    pub p2: Point,
-}
-
-
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Triangle {
-    pub p1: Point,
-    pub p2: Point,
-    pub point3: Point,
-}
 impl Triangle {
-    pub fn new(p1: &Point, p2: &Point, point3: &Point) -> Self {
+    pub fn new(p1: &Point, p2: &Point, p3: &Point) -> Self {
         Self {
             p1: p1.clone(),
             p2: p2.clone(),
-            point3: point3.clone(),
+            p3: p3.clone(),
         }
     }
 }
 
 
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Rectangle {
-    pub p1: Point,
-    pub p2: Point,
+impl Circle {
+//implemeeenetee
 }
-impl Rectangle {
-    pub fn new(p1: &Point, p2: &Point) -> Self {
+
+
+impl Line {
+    pub fn random(w: i32, h: i32) -> Self {
         Self {
-            p1: p1.clone(),
-            p2: p2.clone(),
+            p1: Point::random(w, h),
+            p2: Point::random(w, h),
         }
+    }
+}
+
+impl Drawable for Line {
+    fn draw(&self, image: &mut Image) {
+        render_line(image, &self.p1, &self.p2, self.color())
     }
 }

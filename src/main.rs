@@ -11,19 +11,19 @@ fn main() {
 
     gs::Point::random(image.width, image.height).draw(&mut image);
 
-    let rectangle = gs::Rectangle::new(&gs::Point::new(150, 300), &gs::Point::new(50, 60));
-    rectangle.draw(&mut image);
+    // let rectangle = gs::Rectangle::new(&gs::Point::new(150, 300), &gs::Point::new(50, 60));
+    // rectangle.draw(&mut image);
 
-    let triangle = gs::Triangle::new(
-        &gs::Point::new(500, 500),
-        &gs::Point::new(250, 700),
-        &gs::Point::new(700, 800),
-    );
-    triangle.draw(&mut image);
+    // let triangle = gs::Triangle::new(
+    //     &gs::Point::new(500, 500),
+    //     &gs::Point::new(250, 700),
+    //     &gs::Point::new(700, 800),
+    // );
+    // triangle.draw(&mut image);
 
     for _ in 1..50 {
-        let c = gs::Circle::random(image.width, image.height);
-        c.draw(&mut image);
+        // let c = gs::Circle::random(image.width, image.height);
+        // c.draw(&mut image);
     }
 raster::save(&image, "image.png").unwrap();
 }
