@@ -39,12 +39,12 @@ pub struct Line {
 }
 
 
-#[derive(Debug, PartialEq, Eq, Clone)]
-pub struct Triangle {
-    pub p1: Point,
-    pub p2: Point,
-    pub p3: Point,
-}
+// #[derive(Debug, PartialEq, Eq, Clone)]
+// pub struct Triangle {
+//     pub p1: Point,
+//     pub p2: Point,
+//     pub p3: Point,
+// }
 
 
 
@@ -62,11 +62,11 @@ impl Rectangle {
     }
 }
 
-#[derive(Debug, PartialEq, Eq)]
-pub struct Circle {
-    pub center: Point,
-    pub radius: i32,
-}
+// #[derive(Debug, PartialEq, Eq)]
+// pub struct Circle {
+//     pub center: Point,
+//     pub radius: i32,
+// }
 
 
 //implementations :
@@ -91,20 +91,20 @@ impl Point {
     }
 }
 
-impl Triangle {
-    pub fn new(p1: &Point, p2: &Point, p3: &Point) -> Self {
-        Self {
-            p1: p1.clone(),
-            p2: p2.clone(),
-            p3: p3.clone(),
-        }
-    }
-}
+// impl Triangle {
+//     pub fn new(p1: &Point, p2: &Point, p3: &Point) -> Self {
+//         Self {
+//             p1: p1.clone(),
+//             p2: p2.clone(),
+//             p3: p3.clone(),
+//         }
+//     }
+// }
 
 
-impl Circle {
-//implemeeenetee
-}
+// impl Circle {
+// //implemeeenetee
+// }
 
 
 impl Line {
@@ -119,5 +119,19 @@ impl Line {
 impl Drawable for Line {
     fn draw(&self, image: &mut Image) {
         render_line(image, &self.p1, &self.p2, self.color())
+    }
+}
+
+impl Drawable for Rectangle {
+    fn draw(&self, image: &mut Image) {
+        let cc = self.color();
+        let p3 = Point::new(self.p1.x , self.p2.y);
+        let p4 = Point::new(self.p2.x , self.p1.y);
+
+        render_line(image,&self.p1, &p3 , cc.clone());
+        render_line(image,&p3, &self.p2 , cc.clone());
+        render_line(image,&self.p2, &p4 , cc.clone());
+        render_line(image,&p4, &self.p1 , cc.clone());
+        //implement Rec draw
     }
 }
